@@ -7,7 +7,8 @@ interface InventoryRepository {
     fun register(wine: Wine): Boolean
 
     // 재고 삭제
-    fun delete(id: String)
+    fun delete(id: String): Boolean
+
     // 입고
     fun store(id: String, quantity: Int): Boolean
 
