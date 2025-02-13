@@ -56,9 +56,9 @@ class InventoryRepositoryTest {
     }
 
     @Test
-    fun `존재하지 않는 와인에 대해서 와인 재고를 추가할 경우 false 반환`() {
+    fun `존재하지 않는 와인에 대해서 와인 재고를 추가할 경우, WineNotFoundException 발생`() {
         val repository = FakeInventoryRepository()
-        assertFalse { repository.store("1", 4) }
+        assertThrows<WineNotFoundException> { repository.store("1", 4) }
     }
 
     @Test
@@ -81,9 +81,9 @@ class InventoryRepositoryTest {
     }
 
     @Test
-    fun `존재하지 않는 와인에 대해서 와인 재고를 출고할 경우 false 반환`() {
+    fun `존재하지 않는 와인에 대해서 와인 재고를 출고할 경우, WineNotFoundException 발생`() {
         val repository = FakeInventoryRepository()
-        assertFalse { repository.retrieve("1", quantity = 4) }
+        assertThrows<WineNotFoundException> { repository.retrieve("1", quantity = 4) }
     }
 
     @Test
