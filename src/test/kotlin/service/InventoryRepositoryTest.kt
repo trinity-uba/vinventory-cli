@@ -35,7 +35,7 @@ class InventoryRepositoryTest {
         val repository = FakeInventoryRepository()
         repository.register(wine)
         repository.delete("1")
-        assertTrue(repository.wines.isEmpty())
+        assertTrue(repository.getAll().isEmpty())
     }
 
     @Test
@@ -52,7 +52,7 @@ class InventoryRepositoryTest {
         repository.register(wine)
         val originalQuantity = wine.quantity
         repository.store(wine.id, quantity = 4)
-        assertEquals(repository.wines.find { it.id == wine.id }?.quantity, originalQuantity + 4)
+        assertEquals(repository.getAll().find { it.id == wine.id }?.quantity, originalQuantity + 4)
     }
 
     @Test
@@ -67,7 +67,7 @@ class InventoryRepositoryTest {
         repository.register(wine)
         val originalQuantity = wine.quantity
         repository.retrieve("1", quantity = 4)
-        assertEquals(repository.wines.find { it.id == wine.id }?.quantity, originalQuantity - 4)
+        assertEquals(repository.getAll().find { it.id == wine.id }?.quantity, originalQuantity - 4)
     }
 
     @Test
