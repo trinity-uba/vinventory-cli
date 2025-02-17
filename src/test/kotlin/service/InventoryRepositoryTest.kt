@@ -1,6 +1,8 @@
 package service
 
 import com.august.domain.model.Wine
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -99,5 +101,19 @@ class InventoryRepositoryTest {
         repository.register(wine)
         repository.delete(wine.id)
         assertTrue { repository.getAll().isEmpty() }
+    }
+
+    @Test
+    fun `멀티스레드 환경에서도 재고가 일관성을 유지해야 한다`() = runTest {
+        val repository = FakeInventoryRepository()
+        repository.register(wine)
+        val jobs = List(100) {
+            launch {
+                repository.store("1", 1)
+                repository.retrieve("1", 1)
+            }
+        }
+        jobs.forEach { it.join() }
+        assertEquals(10, repository.getAll().find { it.id == "1" }?.quantity)
     }
 }
